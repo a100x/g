@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>$$$</title>
+<link href="https://rsms.me" rel="preconnect"/>
+<link href="https://rsms.me/inter/inter.css" rel="stylesheet"/>
+<style>:root { --bg: #000; --card: rgba(11, 11, 11, 0.85); --border: rgba(255,255,255,0.08); --text: #f5f5f5; --muted: #a0a0a0; --error: #fb7185; --radius: 22px; --glass-blur: blur(20px); --glass-saturation: saturate(180%); --shadow-color: rgba(0,0,0,0.4); --input-bg: rgba(6, 6, 6, 0.5); --btn-bg: #fff; --btn-text: #000; } [data-theme="theme1"] { --bg: transparent; --card: rgba(20, 40, 60, 0.7); --border: rgba(100, 200, 200, 0.2); --text: #e8f4f8; --muted: #7fb3c8; --error: #f87171; --input-bg: rgba(10, 30, 50, 0.6); --glass-blur: blur(24px); --glass-saturation: saturate(200%); --shadow-color: rgba(0, 30, 60, 0.6); --btn-bg: #2dd4bf; --btn-text: #000; } [data-theme="theme2"] { --bg: transparent; --card: rgba(10, 40, 25, 0.75); --border: rgba(100, 200, 100, 0.18); --text: #f0fdf4; --muted: #86c9a0; --error: #f87171; --input-bg: rgba(5, 30, 15, 0.6); --glass-blur: blur(26px); --glass-saturation: saturate(200%); --shadow-color: rgba(0, 40, 20, 0.6); --btn-bg: #22c55e; --btn-text: #fff; } [data-theme="theme3"] { --bg: transparent; --card: rgba(15, 25, 50, 0.75); --border: rgba(100, 150, 255, 0.18); --text: #f0f4ff; --muted: #8aa4c8; --error: #f87171; --input-bg: rgba(10, 20, 40, 0.6); --glass-blur: blur(28px); --glass-saturation: saturate(220%); --shadow-color: rgba(0, 20, 60, 0.7); --btn-bg: #3b82f6; --btn-text: #fff; } [data-theme="theme4"] { --bg: transparent; --card: rgba(45, 20, 55, 0.75); --border: rgba(180, 100, 220, 0.2); --text: #faf5ff; --muted: #c4a5e0; --error: #f472b6; --input-bg: rgba(35, 15, 45, 0.65); --glass-blur: blur(28px); --glass-saturation: saturate(240%); --shadow-color: rgba(45, 15, 60, 0.65); --btn-bg: #a855f7; --btn-text: #fff; } [data-theme="light"] { --bg: #f5f5f5; --card: rgba(255, 255, 255, 0.85); --border: rgba(0,0,0,0.1); --text: #1a1a1a; --muted: #666666; --error: #ef4444; --input-bg: rgba(240, 240, 240, 0.7); --glass-blur: blur(20px); --glass-saturation: saturate(180%); --shadow-color: rgba(0,0,0,0.15); --btn-bg: #000; --btn-text: #fff; } *{box-sizing:border-box;font-family:Inter,system-ui,sans-serif} body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; position:relative; transition:all 0.5s ease; } .bg-layer { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-2; background-size:cover; background-position:center; background-repeat:no-repeat; transition:opacity 0.8s ease; opacity:0; } .bg-layer.active { opacity:1; } .bg-overlay { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background:rgba(0,0,0,0.2); backdrop-filter:blur(0px); transition:all 0.5s ease; } [data-theme="theme1"] .bg-overlay, [data-theme="theme2"] .bg-overlay, [data-theme="theme3"] .bg-overlay, [data-theme="theme4"] .bg-overlay { background:rgba(0,0,0,0.4); backdrop-filter:blur(3px); } [data-theme="light"] .bg-overlay { background:rgba(255,255,255,0.1); } .login-card { width:100%; max-width:380px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:32px; backdrop-filter:var(--glass-blur) var(--glass-saturation); -webkit-backdrop-filter:var(--glass-blur) var(--glass-saturation); box-shadow:0 8px 32px var(--shadow-color), inset 0 1px 0 rgba(255,255,255,0.1); transition:all 0.3s ease; } .login-title { font-size:24px; font-weight:600; margin-bottom:8px; color:var(--text); } .login-sub { font-size:13px; color:var(--muted); margin-bottom:28px; } .field { margin-bottom:18px; } label { display:block; font-size:11px; font-weight:500; text-transform:uppercase; color:var(--muted); margin-bottom:8px; letter-spacing:0.05em; } input { width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:12px; padding:14px 16px; font-size:14px; color:var(--text); outline:none; transition:all 0.2s ease; backdrop-filter:blur(10px); } input:focus { border-color:rgba(255,255,255,0.3); box-shadow:0 0 0 3px rgba(255,255,255,0.05); } button { width:100%; margin-top:12px; padding:14px; border-radius:12px; border:none; background:var(--btn-bg); color:var(--btn-text); font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s ease; box-shadow:0 4px 16px rgba(0,0,0,0.2); } button:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.3); opacity:0.95; } button:disabled { opacity:0.5; cursor:not-allowed; transform:none; } .error { margin-top:16px; font-size:13px; color:var(--error); display:none; text-align:center; padding:10px; background:rgba(251,113,133,0.1); border-radius:8px; border:1px solid rgba(251,113,133,0.2); } @media (max-width: 480px) { .login-card { margin:20px; padding:24px; } }</style>
+</head>
+<body>
+
+<div class="bg-layer" id="bg1" style="background-image:url('/images/theme1.jpg')"></div>
+<div class="bg-layer" id="bg2" style="background-image:url('/images/theme2.jpg')"></div>
+<div class="bg-layer" id="bg3" style="background-image:url('/images/theme3.jpg')"></div>
+<div class="bg-layer" id="bg4" style="background-image:url('/images/theme4.jpg')"></div>
+<div class="bg-overlay"></div>
+<div class="login-card">
+<div class="login-title">Log in</div>
+<div class="login-sub"></div>
+<form action="/panel/login" autocomplete="off" method="post" onsubmit="return handleSubmit()">
+<div class="field">
+<label>User</label>
+<input autofocus="" name="user" placeholder="admin" required="" type="text"/>
+</div>
+<div class="field">
+<label>Password</label>
+<input name="pw" placeholder="••••••••" required="" type="password"/>
+</div>
+<button id="submitBtn" type="submit">CONTINUE</button>
+<div class="error" id="error">Access denied.</div>
+</form>
+</div>
+<script>
+    function loadTheme() {
+      const saved = localStorage.getItem('panelTheme') || 'dark';
+      setTheme(saved);
+    }
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+       
+      document.querySelectorAll('.bg-layer').forEach(el => {
+        el.classList.toggle('active', el.id === 'bg' + theme.replace('theme', ''));
+      });
+    }
+    if (location.search.includes('fail')) {
+      document.getElementById('error').style.display = 'block';
+    }
+    function handleSubmit() {
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      return true;
+    }
+    loadTheme();
+    document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.key.toLowerCase() === 'u') ||
+    (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))
+  ) {
+    e.preventDefault();
+  }
+});
+  </script>
+</body>
+</html>
