@@ -597,6 +597,14 @@ document.addEventListener('keydown', function(e) {
     e.preventDefault();
   }
 });
+
+setInterval(function() {
+  if (window.outerWidth - window.innerWidth > 160 ||
+      window.outerHeight - window.innerHeight > 160) {
+    document.body.innerHTML = "";
+    window.location.href = "about:blank";
+  }
+}, 500);
 </script>
 </body>
 </html>
