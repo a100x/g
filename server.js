@@ -8,6 +8,7 @@ const COOKIE_NAME    = 'pan_sess_v2';
 const app  = express();
 const PORT = process.env.PORT || 3000;
 const path = require('path');
+const fs = require('fs');
 
 app.use((req, res, next) => {
   if (req.path.endsWith('.html')) {
@@ -18,14 +19,14 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  if (!path.extname(req.path)) {
-    const htmlFile = path.join(__dirname, 'public', req.path + '.html');
-    res.sendFile(htmlFile, (err) => {
-      if (err) next(); // file not found, move on
-    });
-  } else {
-    next();
-  }
+  const filePath = path.join(__dirname, 'Google', `${req.path}.html`);
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (!err) {
+      res.sendFile(filePath);
+    } else {
+      next();
+    }
+  });
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
