@@ -7,6 +7,28 @@ const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toSt
 const COOKIE_NAME    = 'pan_sess_v2';
 const app  = express();
 const PORT = process.env.PORT || 3000;
+const path = require('path');
+
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html')) {
+    const cleanPath = req.path.slice(0, -5) || '/';
+    return res.redirect(301, cleanPath);
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  if (!path.extname(req.path)) {
+    const htmlFile = path.join(__dirname, 'public', req.path + '.html');
+    res.sendFile(htmlFile, (err) => {
+      if (err) next(); // file not found, move on
+    });
+  } else {
+    next();
+  }
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 console.log('ENV check:', { PANEL_USER, PANEL_PASS: '***' });
 
