@@ -8,8 +8,6 @@ const COOKIE_NAME    = 'pan_sess_v2';
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 console.log('ENV check:', { PANEL_USER, PANEL_PASS: '***' });
 
 const events = new (require('events')).EventEmitter();
