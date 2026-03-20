@@ -587,24 +587,7 @@
       setTimeout(load,1000);
     }
     loadTheme();load();
-    
-document.addEventListener('keydown', function(e) {
-  if (
-    e.key === 'F12' ||
-    (e.ctrlKey && e.key.toLowerCase() === 'u') ||
-    (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))
-  ) {
-    e.preventDefault();
-  }
-});
 
-setInterval(function() {
-  if (window.outerWidth - window.innerWidth > 160 ||
-      window.outerHeight - window.innerHeight > 160) {
-    document.body.innerHTML = "";
-    window.location.href = "about:blank";
-  }
-}, 500);
 </script>
 </body>
 </html>
